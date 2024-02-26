@@ -2,7 +2,7 @@ from View import View
 
 class ConsoleView(View):
     def __init__(self):
-        self.int_to_char = {0: "-", 1: "□", 2: "■"} 
+        self.int_to_char = {0: "-", 1: "■", 2: "□"} 
         pass
 
     def show(self, game):
@@ -15,4 +15,3 @@ class ConsoleView(View):
         # Print rows with their labels
         for label, row in zip(row_labels, game.board):
             print(f"{label} " + " ".join(self.int_to_char[cell] for cell in row))
-        pass
