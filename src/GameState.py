@@ -43,12 +43,4 @@ class GameState:
         return legal_moves
 
     def finished(self):
-        # TODO: Rmeove this
-        return False
-
-
-
-        if not self.get_legal_moves():
-            return True
-        else:
-            return False
+        return len(self.get_legal_moves()) == 0

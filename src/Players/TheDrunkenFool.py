@@ -1,5 +1,5 @@
 import random
-from Players import Player
+from Player import Player
 
 class TheDrunkenFool(Player):
     def get_move(self, gamestate):
