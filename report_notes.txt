@@ -1,0 +1,26 @@
+Design Decisions
+----------------
+- When evaluating future moves, there are two ways to preserve past moves:
+  1. Maintain a log of all moves made and undo a move after evaluating it.
+     Pros:
+     - Able to keep track of various game state attributes (e.g., score, surface area).
+     Cons:
+     - Need to undo and pop off various game state logs after each evaluation.
+  2. Save a copy of the board, make a move, and then evaluate the board after making the move.
+     Pros:
+     - No need to undo each time a child completes an evaluation.
+     Cons:
+     - Requires recalculating game state stats for each new move.
+     - (Potentially) Requires saving many game states.
+
+- Board Evaluation
+  1. Bit Boards: Representing the board as two 128-bit integers.
+     Pros:
+     - Very efficient in terms of space and being able to perform bit operations.
+     Cons:
+     - Complicated to implement.
+  2. 2D Integer Array
+     Pros:
+     - Simpler to implement and more intuitive to work with.
+     Cons:
+     - Python arrays are very inefficient.
