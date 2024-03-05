@@ -1,20 +1,21 @@
 from GameState import GameState
 from Players.Human import Human
+from Players.GuiPlayer import GuiPlayer
 from Players.MinimaxArea import MinimaxArea
-from Views.ConsoleView import ConsoleView
+from Views.GuiView import GuiView
 
 
 
 
 def main():
-    player1 = Human()
+    view = GuiView()
+    player1 = GuiPlayer(view)
     player2 = MinimaxArea(color=2, depth=2)
-    view = ConsoleView()
     game = GameState(player1, player2)
 
     current_player = player1
     while not game.finished():
-        view.show(game)
+        view.show(game) 
         
         # Get move from current players
         move = current_player.get_move(game)
@@ -23,6 +24,8 @@ def main():
         # Implement move
         try:
             game.make_move(move)
+            view.update(move.col1,move.row1,move.col2,move.row2)
+
         except:
             print("Invalid move", move)
             return 
