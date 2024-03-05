@@ -27,6 +27,13 @@ class GameState:
         self.white_to_move = not self.white_to_move
         self.move_log.append(move)
 
+    def unmake_move(self):
+        move = self.move_log.pop()
+        self.board[move.row1][move.col1] = 0
+        self.board[move.row2][move.col2] = 0
+        self.white_to_move = not self.white_to_move
+        
+
     def get_legal_moves(self):
         legal_moves = []
         for row_white in range(9):
