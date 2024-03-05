@@ -1,10 +1,5 @@
-import pygame, keyboard, sys, math
+import pygame
 from View import View
-
-red = (255,0,0)
-white = (255,255,255)
-green = (0,153,0)
-black = (0,0,0)
 
 
 class GuiView(View):
@@ -12,57 +7,52 @@ class GuiView(View):
         self.numberofclicks = 0
         self.swap = False
         self.done = False
-        self.brick = [] 
-
+        self.bricks = [] 
         self.surface = pygame.display.set_mode((900,900))
         pygame.init()
 
-        pass
-
-    def update(self, x1,y1,x2,y2):
-        self.brick.append([x1,y1,x2,y2])
+    def update(self, move):
+        self.bricks.append([move.col1, move.row1, move.col2, move.row2])
+    
+    def highlight(self, row, col):
+        print(row, col)
+        highlight = pygame.Color(154, 179, 109)
+        pygame.draw.rect(self.surface, highlight, pygame.Rect(col*100, row*100, 100, 100))
+        pygame.display.flip()
 
     def onlyshow(self, game):
-                # Draw background
-        self.surface.fill(white)
+        # Colors
+        bg1 = pygame.Color(115, 130, 104)
+        bg2 = pygame.Color(138, 150, 128)
+        dark_bg = pygame.Color(69, 69, 69)
+        light_bg = pygame.Color(217, 217, 217)
 
-        #Draving Grid
-        i = 0
-        for x in game.board:
-            i = i + 1
-            j = 0
-            for y in x:
-                j = j + 1
-                pygame.draw.rect(self.surface, black, pygame.Rect((j-1)*100, (i-1)*100, 100, 100),2) 
+        border_radius = 10
+        border_gap = 5
 
-        #Form Bricks
-        for k in self.brick:
-            if k[0] == k[2] :
-                if k[1] < k[3] :
-                    pygame.draw.rect(self.surface, green, pygame.Rect((k[0])*100+10, (k[1])*100+10, 80, 80+100)) 
-                else :
-                    pygame.draw.rect(self.surface, green, pygame.Rect((k[0])*100+10, (k[3])*100+10, 80, 80+100))  
-            elif k[1] == k[3] :         
-                if k[0] < k[2] :
-                    pygame.draw.rect(self.surface, green, pygame.Rect((k[0])*100+10, (k[1])*100+10, 80 + 100, 80))
-                else :
-                    pygame.draw.rect(self.surface, green, pygame.Rect((k[2])*100+10, (k[1])*100+10, 80 + 100, 80))
+        # Drawing Grid
+        for i in range(len(game.board)):
+            for j in range(len(game.board[i])):
+                color = bg1 if (i + j) % 2 == 0 else bg2
+                pygame.draw.rect(self.surface, color, pygame.Rect(j * 100, i * 100, 100, 100))
 
-        #Black and white
-        i = 0
-        for x in game.board:
-            i = i + 1
-            j = 0
-            for y in x:
-                j = j + 1
-                if(y == 2) :
-                    pygame.draw.rect(self.surface, black, pygame.Rect((j-1)*100+15, (i-1)*100+15, 70, 70))
-                
-                if(y == 1) :
-                    pygame.draw.rect(self.surface, red, pygame.Rect((j-1)*100+15, (i-1)*100+15, 70, 70))
-                
+        # Form Bricks
+        for brick in self.bricks:
+            row1, col1, row2, col2 = brick
+            if row1 == row2 and col1 < col2:
+                pygame.draw.rect(self.surface, light_bg, pygame.Rect(col1 * 100 + border_gap, row1 * 100 + border_gap, (100 - border_gap), (100 - 2 * border_gap)), border_bottom_left_radius=border_radius, border_top_left_radius=border_radius)
+                pygame.draw.rect(self.surface, dark_bg, pygame.Rect(col2 * 100, row2 * 100 + border_gap, (100 - border_gap), (100 - 2 * border_gap)), border_top_right_radius=border_radius, border_bottom_right_radius=border_radius)
+            elif row1 == row2 and col1 > col2:
+                pygame.draw.rect(self.surface, light_bg, pygame.Rect(col1 * 100, row1 * 100 + border_gap, (100 - border_gap), (100 - 2 * border_gap)), border_top_right_radius=border_radius, border_bottom_right_radius=border_radius)
+                pygame.draw.rect(self.surface, dark_bg, pygame.Rect(col2 * 100 + border_gap, row2 * 100 + border_gap, (100 - border_gap), (100 - 2 * border_gap)), border_bottom_left_radius=border_radius, border_top_left_radius=border_radius)
+            elif row1 > row2 and col1 == col2:
+                pygame.draw.rect(self.surface, light_bg, pygame.Rect(col1 * 100 + border_gap, row1 * 100, (100 - 2 * border_gap), (100 - border_gap)), border_bottom_left_radius=border_radius, border_bottom_right_radius=border_radius)
+                pygame.draw.rect(self.surface, dark_bg, pygame.Rect(col2 * 100 + border_gap, row2 * 100 + border_gap, (100 - 2 * border_gap), (100 - border_gap)), border_top_left_radius=border_radius, border_top_right_radius=border_radius)
+            elif row1 < row2 and col1 == col2:
+                pygame.draw.rect(self.surface, light_bg, pygame.Rect(col1 * 100 + border_gap, row1 * 100 + border_gap, (100 - 2 * border_gap), (100 - border_gap)), border_top_left_radius=border_radius, border_top_right_radius=border_radius)
+                pygame.draw.rect(self.surface, dark_bg, pygame.Rect(col2 * 100 + border_gap, row2 * 100, (100 - 2 * border_gap), (100 - border_gap)), border_bottom_left_radius=border_radius, border_bottom_right_radius=border_radius)
+            
         pygame.display.flip()
 
     def show(self, game):
-        
         self.onlyshow(game)

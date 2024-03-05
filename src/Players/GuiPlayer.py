@@ -1,4 +1,4 @@
-import pygame, keyboard, sys, math
+import pygame, sys
 from Move import Move
 from Player import Player
 
@@ -10,48 +10,42 @@ class GuiPlayer(Player):
     def __init__(self,view):
         self.view = view
     def get_move(self, game):
-        #self.onlyshow(game)
-
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    pos=pygame.mouse.get_pos()
-                    btn=pygame.mouse
+                    pos = pygame.mouse.get_pos()
                     print ("x = {}, y = {}, numberofclicks = {}".format(pos[0], pos[1], self.numberofclicks))
-                    x = pos[0]/100
-                    posx = math.trunc(x)
-                    y = pos[1]/100
-                    posy = math.trunc(y)
-                    if self.numberofclicks == 0 :
-                        game.board[posy][posx] = 2
+                    posx = pos[0] // 100
+                    posy = pos[1] // 100
+                    if self.numberofclicks == 0:
+                        self.view.highlight(posy, posx)
                         lastx = posx
                         lasty = posy 
-                    elif self.numberofclicks == 1 :
-                        if lastx == posx and lasty == posy :
-                            game.board[posy][posx] = 1
+                    elif self.numberofclicks == 1:
+                        if lastx == posx and lasty == posy:
+                            self.view.highlight(posy, posx)
                             self.swap = True
-                        else : 
-                            game.board[posy][posx] = 1
+                        else: 
+                            self.view.highlight(posy, posx)
                             self.done = True
-                    else :
-                        if self.swap : 
-                            game.board[posy][posx] = 2
+                    else:
+                        if self.swap: 
+                            self.view.highlight(posy, posx)
                             self.done = True
                     
-                    if self.done :
-                        self.view.brick.append([lastx,lasty,posx,posy])
-                        print ("x1 = {}, y1 = {}, x2 = {}, y2 = {}".format(lastx, lasty , posx, posy))
-                    
-                    self.view.onlyshow(game)
-                    self.numberofclicks = self.numberofclicks + 1
+
+                    self.numberofclicks += 1
                     print ("numberofclicks = {}".format(self.numberofclicks))
-                    if self.done :
+                    if self.done:
                         self.numberofclicks = 0
                         self.done = False
-                        if self.swap :
-                            return Move(lasty, lastx, posy, posx)
-                        else :
-                            return Move(posy, posx, lasty, lastx)
+                        move = None
+                        if self.swap:
+                            move = Move(posx, posy, lastx, lasty)
+                        else:
+                            move = Move(lastx, lasty, posx, posy)
+                        
+                        return move

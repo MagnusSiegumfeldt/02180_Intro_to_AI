@@ -24,7 +24,7 @@ def main():
         # Implement move
         try:
             game.make_move(move)
-            view.update(move.col1,move.row1,move.col2,move.row2)
+            view.update(move)
 
         except:
             print("Invalid move", move)
