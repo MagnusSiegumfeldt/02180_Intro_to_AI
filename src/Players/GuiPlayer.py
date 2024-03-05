@@ -3,9 +3,7 @@ from Move import Move
 from Player import Player
 
 class GuiPlayer(Player):
-    
     numberofclicks = 0
-    swap = False
     done = False
     def __init__(self,view):
         self.view = view
@@ -17,35 +15,35 @@ class GuiPlayer(Player):
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     pos = pygame.mouse.get_pos()
-                    print ("x = {}, y = {}, numberofclicks = {}".format(pos[0], pos[1], self.numberofclicks))
-                    posx = pos[0] // 100
-                    posy = pos[1] // 100
-                    if self.numberofclicks == 0:
+                    posx = pos[0] // self.view.sq_size
+                    posy = pos[1] // self.view.sq_size
+
+                    if self.numberofclicks == 0 and game.board[posx][posy] == 0:
                         self.view.highlight(posy, posx)
                         lastx = posx
                         lasty = posy 
+                        self.numberofclicks = 1
                     elif self.numberofclicks == 1:
-                        if lastx == posx and lasty == posy:
-                            self.view.highlight(posy, posx)
-                            self.swap = True
+                        if (lastx == posx and lasty == posy) or not self.move_is_valid(lastx, lasty, posx, posy, game):
+                            self.view.remove_highlight(posy, posx)
+                            self.view.remove_highlight(lasty, lastx)
+                            self.numberofclicks = 0
                         else: 
                             self.view.highlight(posy, posx)
-                            self.done = True
-                    else:
-                        if self.swap: 
-                            self.view.highlight(posy, posx)
-                            self.done = True
-                    
-
-                    self.numberofclicks += 1
-                    print ("numberofclicks = {}".format(self.numberofclicks))
+                            self.done = True                    
                     if self.done:
                         self.numberofclicks = 0
                         self.done = False
-                        move = None
-                        if self.swap:
-                            move = Move(posx, posy, lastx, lasty)
-                        else:
-                            move = Move(lastx, lasty, posx, posy)
-                        
-                        return move
+                        return Move(lastx, lasty, posx, posy)
+    
+    def move_is_valid(self, row1, col1, row2, col2, gamestate):
+        # Check if coordinates are adjacent (horizontally or vertically)
+        if not (row1 == row2 and abs(col1 - col2) == 1) and not (col1 == col2 and abs(row1 - row2) == 1):
+            print(f"Coordinates ({row1}, {col1}) and ({row2}, {col2}) are not adjacent.")
+            return False
+        # Check occupation
+        elif gamestate.board[row1][col1] != 0 or gamestate.board[row2][col2] != 0:
+            print("You cannot place a piece on an occupied square.")
+            return False
+        else:
+            return True

@@ -13,6 +13,7 @@ class GuiView(View):
         self.done = False
         self.bricks = [] 
         self.surface = pygame.display.set_mode((BOARD_WIDTH,BOARD_HEIGHT))
+        self.sq_size = SQ_SIZE
         pygame.init()
 
     def update(self, move):
@@ -22,6 +23,13 @@ class GuiView(View):
         print(row, col)
         highlight = pygame.Color(154, 179, 109)
         pygame.draw.rect(self.surface, highlight, pygame.Rect(col*SQ_SIZE, row*SQ_SIZE, SQ_SIZE, SQ_SIZE))
+        pygame.display.flip()
+
+    def remove_highlight(self, row, col):
+        bg1 = pygame.Color(115, 130, 104)
+        bg2 = pygame.Color(138, 150, 128)
+        color = bg1 if (row + col) % 2 == 0 else bg2
+        pygame.draw.rect(self.surface, color, pygame.Rect(col*SQ_SIZE, row*SQ_SIZE, SQ_SIZE, SQ_SIZE))
         pygame.display.flip()
 
     def onlyshow(self, game):
