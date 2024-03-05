@@ -1,6 +1,10 @@
 import pygame
 from View import View
 
+BOARD_WIDTH = 600
+BOARD_HEIGHT = 600
+GRID_SIZE = 9 # 9x9 grid
+SQ_SIZE = BOARD_WIDTH // GRID_SIZE
 
 class GuiView(View):
     def __init__(self):
@@ -8,7 +12,7 @@ class GuiView(View):
         self.swap = False
         self.done = False
         self.bricks = [] 
-        self.surface = pygame.display.set_mode((900,900))
+        self.surface = pygame.display.set_mode((BOARD_WIDTH,BOARD_HEIGHT))
         pygame.init()
 
     def update(self, move):
@@ -17,7 +21,7 @@ class GuiView(View):
     def highlight(self, row, col):
         print(row, col)
         highlight = pygame.Color(154, 179, 109)
-        pygame.draw.rect(self.surface, highlight, pygame.Rect(col*100, row*100, 100, 100))
+        pygame.draw.rect(self.surface, highlight, pygame.Rect(col*SQ_SIZE, row*SQ_SIZE, SQ_SIZE, SQ_SIZE))
         pygame.display.flip()
 
     def onlyshow(self, game):
@@ -34,23 +38,23 @@ class GuiView(View):
         for i in range(len(game.board)):
             for j in range(len(game.board[i])):
                 color = bg1 if (i + j) % 2 == 0 else bg2
-                pygame.draw.rect(self.surface, color, pygame.Rect(j * 100, i * 100, 100, 100))
+                pygame.draw.rect(self.surface, color, pygame.Rect(j * SQ_SIZE, i * SQ_SIZE, SQ_SIZE, SQ_SIZE))
 
         # Form Bricks
         for brick in self.bricks:
             row1, col1, row2, col2 = brick
             if row1 == row2 and col1 < col2:
-                pygame.draw.rect(self.surface, light_bg, pygame.Rect(col1 * 100 + border_gap, row1 * 100 + border_gap, (100 - border_gap), (100 - 2 * border_gap)), border_bottom_left_radius=border_radius, border_top_left_radius=border_radius)
-                pygame.draw.rect(self.surface, dark_bg, pygame.Rect(col2 * 100, row2 * 100 + border_gap, (100 - border_gap), (100 - 2 * border_gap)), border_top_right_radius=border_radius, border_bottom_right_radius=border_radius)
+                pygame.draw.rect(self.surface, light_bg, pygame.Rect(col1 * SQ_SIZE + border_gap, row1 * SQ_SIZE + border_gap, (SQ_SIZE - border_gap), (SQ_SIZE - 2 * border_gap)), border_bottom_left_radius=border_radius, border_top_left_radius=border_radius)
+                pygame.draw.rect(self.surface, dark_bg, pygame.Rect(col2 * SQ_SIZE, row2 * SQ_SIZE + border_gap, (SQ_SIZE - border_gap), (SQ_SIZE - 2 * border_gap)), border_top_right_radius=border_radius, border_bottom_right_radius=border_radius)
             elif row1 == row2 and col1 > col2:
-                pygame.draw.rect(self.surface, light_bg, pygame.Rect(col1 * 100, row1 * 100 + border_gap, (100 - border_gap), (100 - 2 * border_gap)), border_top_right_radius=border_radius, border_bottom_right_radius=border_radius)
-                pygame.draw.rect(self.surface, dark_bg, pygame.Rect(col2 * 100 + border_gap, row2 * 100 + border_gap, (100 - border_gap), (100 - 2 * border_gap)), border_bottom_left_radius=border_radius, border_top_left_radius=border_radius)
+                pygame.draw.rect(self.surface, light_bg, pygame.Rect(col1 * SQ_SIZE, row1 * SQ_SIZE + border_gap, (SQ_SIZE - border_gap), (SQ_SIZE - 2 * border_gap)), border_top_right_radius=border_radius, border_bottom_right_radius=border_radius)
+                pygame.draw.rect(self.surface, dark_bg, pygame.Rect(col2 * SQ_SIZE + border_gap, row2 * SQ_SIZE + border_gap, (SQ_SIZE - border_gap), (SQ_SIZE - 2 * border_gap)), border_bottom_left_radius=border_radius, border_top_left_radius=border_radius)
             elif row1 > row2 and col1 == col2:
-                pygame.draw.rect(self.surface, light_bg, pygame.Rect(col1 * 100 + border_gap, row1 * 100, (100 - 2 * border_gap), (100 - border_gap)), border_bottom_left_radius=border_radius, border_bottom_right_radius=border_radius)
-                pygame.draw.rect(self.surface, dark_bg, pygame.Rect(col2 * 100 + border_gap, row2 * 100 + border_gap, (100 - 2 * border_gap), (100 - border_gap)), border_top_left_radius=border_radius, border_top_right_radius=border_radius)
+                pygame.draw.rect(self.surface, light_bg, pygame.Rect(col1 * SQ_SIZE + border_gap, row1 * SQ_SIZE, (SQ_SIZE - 2 * border_gap), (SQ_SIZE - border_gap)), border_bottom_left_radius=border_radius, border_bottom_right_radius=border_radius)
+                pygame.draw.rect(self.surface, dark_bg, pygame.Rect(col2 * SQ_SIZE + border_gap, row2 * SQ_SIZE + border_gap, (SQ_SIZE - 2 * border_gap), (SQ_SIZE - border_gap)), border_top_left_radius=border_radius, border_top_right_radius=border_radius)
             elif row1 < row2 and col1 == col2:
-                pygame.draw.rect(self.surface, light_bg, pygame.Rect(col1 * 100 + border_gap, row1 * 100 + border_gap, (100 - 2 * border_gap), (100 - border_gap)), border_top_left_radius=border_radius, border_top_right_radius=border_radius)
-                pygame.draw.rect(self.surface, dark_bg, pygame.Rect(col2 * 100 + border_gap, row2 * 100, (100 - 2 * border_gap), (100 - border_gap)), border_bottom_left_radius=border_radius, border_bottom_right_radius=border_radius)
+                pygame.draw.rect(self.surface, light_bg, pygame.Rect(col1 * SQ_SIZE + border_gap, row1 * SQ_SIZE + border_gap, (SQ_SIZE - 2 * border_gap), (SQ_SIZE - border_gap)), border_top_left_radius=border_radius, border_top_right_radius=border_radius)
+                pygame.draw.rect(self.surface, dark_bg, pygame.Rect(col2 * SQ_SIZE + border_gap, row2 * SQ_SIZE, (SQ_SIZE - 2 * border_gap), (SQ_SIZE - border_gap)), border_bottom_left_radius=border_radius, border_bottom_right_radius=border_radius)
             
         pygame.display.flip()
 
