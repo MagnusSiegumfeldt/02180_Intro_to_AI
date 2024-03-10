@@ -7,8 +7,6 @@ from Views.GuiView import GuiView
 from Views.ConsoleView import ConsoleView
 
 
-
-
 def main():
     view = GuiView()
     player1 = GuiPlayer(view)
@@ -17,7 +15,7 @@ def main():
 
     current_player = player1
     while not game.finished():
-        view.show(game) 
+        view.show(game)
         move = current_player.get_move(game)
         try:
             game.make_move(move)
@@ -32,9 +30,6 @@ def main():
     view.show(game)
     print("Game over")
 
+
 if __name__ == "__main__":
     main()
-
-
-
-

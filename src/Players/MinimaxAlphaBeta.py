@@ -2,6 +2,7 @@ from Player import Player
 import time as t
 import random
 
+
 class MinimaxAlphaBeta(Player):
     def __init__(self, color, depth):
         self.color = color
