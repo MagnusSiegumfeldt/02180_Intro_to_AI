@@ -134,7 +134,7 @@ class GameState:
         return size
 
 
-    def eval(self):
+    def score(self):
         # Todo: this is naive
         visited = [[False for _ in range(9)] for _ in range(9)]
         best = [[0, 0], [0, 0]]
@@ -149,4 +149,4 @@ class GameState:
                     best[idx][1] = size
                 elif best[idx][0] <= best[idx][1] and best[idx][0] < size:
                     best[idx][0] = size
-        return sum(best[0]) - sum(best[1])
+        return best
