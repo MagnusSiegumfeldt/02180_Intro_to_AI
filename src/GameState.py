@@ -110,3 +110,43 @@ class GameState:
     
     def finished(self):
         return len(self.get_legal_moves()) == 0
+
+    def dfs(self, row, col, visited, color):
+        if visited[row][col] or self.board[row][col] != color:
+            return 0
+        stack = []
+        stack.append((row, col))
+        visited[row][col] = True
+        size = 0
+        while len(stack) > 0:
+            r, c = stack.pop()
+            size += 1
+            for dr, dc in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+                nr, nc = r + dr, c + dc
+                if (
+                    0 <= nr < 9
+                    and 0 <= nc < 9
+                    and not visited[nr][nc]
+                    and self.board[nr][nc] == color
+                ):
+                    stack.append((nr, nc))
+                    visited[nr][nc] = True
+        return size
+
+
+    def eval(self):
+        # Todo: this is naive
+        visited = [[False for _ in range(9)] for _ in range(9)]
+        best = [[0, 0], [0, 0]]
+        for i in range(9):
+            for j in range(9):
+                current_color = self.board[i][j]
+                if current_color == 0:
+                    continue
+                idx = current_color - 1
+                size = self.dfs(i, j, visited, current_color)
+                if best[idx][0] >= best[idx][1] and best[idx][1] < size:
+                    best[idx][1] = size
+                elif best[idx][0] <= best[idx][1] and best[idx][0] < size:
+                    best[idx][0] = size
+        return sum(best[0]) - sum(best[1])
