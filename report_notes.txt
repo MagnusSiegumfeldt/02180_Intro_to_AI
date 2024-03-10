@@ -24,3 +24,7 @@ Design Decisions
      - Simpler to implement and more intuitive to work with.
      Cons:
      - Python arrays are very inefficient.
+
+Known Bugs
+----------
+   - You are able to click outside the board on the very edges of the map.
