@@ -1,3 +1,5 @@
+import time as t
+
 from GameState import GameState
 from Players.Human import Human
 from Players.GuiPlayer import GuiPlayer
@@ -9,12 +11,15 @@ from Views.ConsoleView import ConsoleView
 
 def main():
     view = GuiView()
-    player1 = GuiPlayer(view)
-    player2 = MinimaxAlphaBeta(color=2, depth=2)
+    # player1 = GuiPlayer(view)
+    player1 = MinimaxAlphaBeta(color=1, depth=2)
+    player2 = MinimaxArea(color=2, depth=2)
     game = GameState(player1, player2)
-
     current_player = player1
+
+
     while not game.finished():
+        start = t.time()
         view.show(game)
         move = current_player.get_move(game)
         try:
@@ -23,9 +28,10 @@ def main():
         except:
             print("Invalid move", move)
             return
+        print("Time taken:", t.time() - start)
         score = game.score()
-        print(f"Player 1:{score[0][0]} + {score[0][1]} = {score[0][0] + score[0][1]}")
-        print(f"Player 2:{score[1][0]} + {score[1][1]} = {score[1][0] + score[1][1]}")
+        print(f"Player 1:\t{score[0][0]} + {score[0][1]} = {score[0][0] + score[0][1]}")
+        print(f"Player 2:\t{score[1][0]} + {score[1][1]} = {score[1][0] + score[1][1]}")
         current_player = player1 if current_player == player2 else player2
     view.show(game)
     print("Game over")
