@@ -16,12 +16,10 @@ class MinimaxArea(Player):
         # if white
         if self.color == 1:
             move = self.minimax(gamestate, self.depth, True)[1]
-            print("Nodes visited:", self.nodes_visited)
             return move
         # if black
         else:
             move = self.minimax(gamestate, self.depth, False)[1]
-            print("Nodes visited:", self.nodes_visited)
             return move
 
     # Returns a (Integer, Move) tuple describing the maximum outcome (assuming rational minimizing player 2)

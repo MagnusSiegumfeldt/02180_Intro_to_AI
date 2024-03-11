@@ -24,14 +24,5 @@ def main():
     return
 
 
-def print_turn_record(turn_stats):
-    print("Turn number:", turn_stats[0])
-    print("Time taken:", turn_stats[1])
-    print("Nodes visited:", turn_stats[2])
-    print("Player color: ", turn_stats[3])
-    print(f"Score: {turn_stats[4]} => {sum(turn_stats[4][0]) - sum(turn_stats[4][1])}")
-    print("\n")
-
-
 if __name__ == "__main__":
     main()

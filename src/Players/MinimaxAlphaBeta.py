@@ -17,7 +17,6 @@ class MinimaxAlphaBeta(Player):
         self.minimax_alpha_beta(
             gamestate, self.depth, turn_multiplier, float("-inf"), float("inf")
         )
-        print("Nodes visited:", self.nodes_visited)
         return best_move
 
     def minimax_alpha_beta(self, gamestate, depth, turn_multiplier, alpha, beta):
