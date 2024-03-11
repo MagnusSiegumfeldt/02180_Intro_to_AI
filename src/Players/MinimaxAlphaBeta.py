@@ -1,29 +1,26 @@
 from Player import Player
-import random
 
 
 class MinimaxAlphaBeta(Player):
-    def __init__(self, color, depth):
-        self.color = color
+    def __init__(self, depth, color):
         self.depth = depth
+        self.color = color
 
     def get_move(self, gamestate):
         global best_move
-        global nodes_visited
-        nodes_visited = 0
+        self.nodes_visited = 0
 
         best_move = None
         turn_multiplier = 1 if self.color == 1 else -1
         self.minimax_alpha_beta(
             gamestate, self.depth, turn_multiplier, float("-inf"), float("inf")
         )
-        print("Nodes visited:", nodes_visited)
+        print("Nodes visited:", self.nodes_visited)
         return best_move
 
     def minimax_alpha_beta(self, gamestate, depth, turn_multiplier, alpha, beta):
         global best_move
-        global nodes_visited
-        nodes_visited += 1
+        self.nodes_visited += 1
 
         moves = gamestate.get_legal_moves_ordered()
         if depth == 0 or len(moves) == 0:

@@ -2,33 +2,31 @@ from Move import Move
 from Player import Player
 
 class MinimaxArea(Player):
-    def __init__(self, color, depth):
-        self.color = color
+    def __init__(self, depth, color):
         self.depth = depth
+        self.color = color
 
 
     # Gets input from the user, asserts that it is valid, and returns the Move object     
     def get_move(self, gamestate):
-        global nodes_visited
-        nodes_visited = 0
+        self.nodes_visited = 0
 
         #if white
         if self.color == 1:
             move = self.minimax(gamestate, self.depth, True)[1]
-            print("Nodes visited:", nodes_visited)
+            print("Nodes visited:", self.nodes_visited)
             return move
         #if black
         else:
             move = self.minimax(gamestate, self.depth, False)[1]
-            print("Nodes visited:", nodes_visited)
+            print("Nodes visited:", self.nodes_visited)
             return move
 
             
 
     #Returns a (Integer, Move) tuple describing the maximum outcome (assuming rational minimizing player 2)
     def minimax(self, gamestate, max_depth, is_max):
-        global nodes_visited
-        nodes_visited += 1
+        self.nodes_visited += 1
         if max_depth == 0:  
             return (self.eval(gamestate), None)
         

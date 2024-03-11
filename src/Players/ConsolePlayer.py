@@ -2,9 +2,7 @@ from Move import Move
 from Player import Player
 
 
-class Human(Player):
-
-    # Gets input from the user, asserts that it is valid, and return the Move object
+class ConsolePlayer(Player):
     def get_move(self, gamestate):
         move_found = False
         while not move_found:
