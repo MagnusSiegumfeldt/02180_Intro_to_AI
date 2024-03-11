@@ -5,6 +5,7 @@ from Players.Human import Human
 from Players.GuiPlayer import GuiPlayer
 from Players.MinimaxArea import MinimaxArea
 from Players.MinimaxAlphaBeta import MinimaxAlphaBeta
+from Players.MiniMaxAlphaBetaHashing import MiniMaxAlphaBetaHashing
 from Views.GuiView import GuiView
 from Views.ConsoleView import ConsoleView
 
@@ -12,8 +13,8 @@ from Views.ConsoleView import ConsoleView
 def main():
     view = GuiView()
     # player1 = GuiPlayer(view)
+    player2 = MiniMaxAlphaBetaHashing(color=2, depth=2)
     player1 = MinimaxAlphaBeta(color=1, depth=2)
-    player2 = MinimaxArea(color=2, depth=2)
     game = GameState(player1, player2)
     current_player = player1
 
