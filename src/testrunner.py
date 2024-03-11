@@ -1,3 +1,4 @@
+import sys
 import time as t
 from Players.MinimaxArea import MinimaxArea
 from Players.MinimaxAlphaBeta import MinimaxAlphaBeta
@@ -6,55 +7,11 @@ from Players.MinimaxAlphaBetaHashingAdvanced import MiniMaxAlphaBetaHashingAdvan
 from GameState import GameState
 
 player_map = {
-    0: MinimaxArea,
-    1: MinimaxAlphaBeta,
-    2: MiniMaxAlphaBetaHashing,
-    3: MiniMaxAlphaBetaHashingAdvanced,
+        0: MinimaxArea,
+        1: MinimaxAlphaBeta,
+        2: MiniMaxAlphaBetaHashing,
+        3: MiniMaxAlphaBetaHashingAdvanced,
 }
-
-
-def run_game(p1, p2, p1d=2, p2d=2, view=None, verbose=True):
-
-    player1 = player_map[p1](color=1, depth=p1d)
-    player2 = player_map[p2](color=2, depth=p2d)
-    game = GameState(player1, player2)
-
-    current_player = player1
-    game_records = []
-
-    if verbose:
-        print_start_of_game(game)
-
-    while not game.finished():
-        start = t.perf_counter()
-        move = current_player.get_move(game)
-        try:
-            game.make_move(move)
-        except:
-            print("Invalid move", move)
-            return
-
-        if view:
-            view.show(game=game)
-            view.update(move)
-
-        turn_record = (
-            len(game_records) + 1,
-            t.perf_counter() - start,
-            current_player.nodes_visited,
-            current_player.color,
-            game.score(),
-        )
-        if verbose:
-            print_turn_record(turn_record)
-        game_records.append(turn_record)
-
-        current_player = player1 if current_player == player2 else player2
-    if view:
-        view.show(game)
-    if verbose:
-        print_end_of_game_results(game_records, player1, player2)
-
 
 def print_start_of_game(game):
     print("Starting game")
@@ -95,3 +52,47 @@ def print_end_of_game_results(game_records, player1, player2):
         "\tnodes visited:",
         sum([record[2] for record in game_records if record[3] == 2]),
     )
+
+def main(argv):
+    p1, p2, p1d, p2d = int(argv[1]), int(argv[2]), int(argv[3]), int(argv[4])
+    
+    player1 = player_map[p1](color=1, depth=p1d)
+    player2 = player_map[p2](color=2, depth=p2d)
+    game = GameState(player1, player2)
+
+    current_player = player1
+    game_records = []
+
+    verbose = True
+    
+    if verbose:
+        print_start_of_game(game)
+
+    while not game.finished():
+        start = t.perf_counter()
+        move = current_player.get_move(game)
+        try:
+            game.make_move(move)
+        except:
+            print("Invalid move", move)
+            return
+
+        turn_record = (
+            len(game_records) + 1,
+            t.perf_counter() - start,
+            current_player.nodes_visited,
+            current_player.color,
+            game.score(),
+        )
+        if verbose:
+            print_turn_record(turn_record)
+        game_records.append(turn_record)
+
+        current_player = player1 if current_player == player2 else player2
+
+    if verbose:
+        print_end_of_game_results(game_records, player1, player2)
+
+
+if __name__ == "__main__":
+    main(sys.argv)

@@ -1,27 +1,37 @@
-import sys
-
+from Players.MinimaxArea import MinimaxArea
+from Players.MinimaxAlphaBeta import MinimaxAlphaBeta
+from Players.MiniMaxAlphaBetaHashing import MiniMaxAlphaBetaHashing
+from Players.MinimaxAlphaBetaHashingAdvanced import MiniMaxAlphaBetaHashingAdvanced
+from Players.GuiPlayer import GuiPlayer
 from Views.GuiView import GuiView
 from Views.ConsoleView import ConsoleView
-from Runner import run_game
-
+from GameState import GameState
 
 def main():
-    if len(sys.argv) != 5:
-        print(
-            "Usage: python main.py <player1> <player2> <player1_depth> <player2_depth>"
-        )
-        print(
-            "MinimaxArea: 0\nMinimaxAlphaBeta: 1\nMiniMaxAlphaBetaHashing: 2\nMiniMaxAlphaBetaHashingAdvanced: 3"
-        )
-        return
+    view = GuiView()
 
-    p1 = sys.argv[1]
-    p2 = sys.argv[2]
-    p1d = sys.argv[3]
-    p2d = sys.argv[4]
+    player1 = GuiPlayer(view)
+    player2 = MiniMaxAlphaBetaHashingAdvanced(color=2, depth=2)
+    game = GameState(player1, player2)
 
-    run_game(int(p1), int(p2), int(p1d), int(p2d), None, True)
-    return
+    current_player = player1
+
+    while not game.finished():
+        view.show(game)
+        move = current_player.get_move(game)
+        try:
+            game.make_move(move)
+            view.update(move)
+        except:
+            print("Invalid move", move)
+            return
+        
+        score = game.score()
+        print(f"Player 1:\t{score[0][0]} + {score[0][1]} = {score[0][0] + score[0][1]}")
+        print(f"Player 2:\t{score[1][0]} + {score[1][1]} = {score[1][0] + score[1][1]}")
+        current_player = player1 if current_player == player2 else player2
+    view.show(game)
+    print("Game over")
 
 
 if __name__ == "__main__":

@@ -13,5 +13,9 @@ dist/
 env/
 venv/
 
+# hpc stuff
+out/
+submit/
+
 # Jupyter Notebook
 .ipynb_checkpoints
