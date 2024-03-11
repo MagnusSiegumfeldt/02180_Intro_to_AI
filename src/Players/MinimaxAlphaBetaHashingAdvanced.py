@@ -19,11 +19,12 @@ class MiniMaxAlphaBetaHashingAdvanced(Player):
     def __init__(self, color, depth):
         self.color = color
         self.depth = depth
+        self.name = "Minimax Alpha Beta Hashing Advanced"
+        self.nodes_visited = 0
 
     def get_move(self, gamestate):
         global best_move
-        global nodes_visited
-        nodes_visited = 0
+        self.nodes_visited = 0
         global visited
         visited = {}
 
@@ -32,14 +33,13 @@ class MiniMaxAlphaBetaHashingAdvanced(Player):
         self.minimax_alpha_beta(
             gamestate, self.depth, turn_multiplier, float("-inf"), float("inf")
         )
-        print("Nodes visited:", nodes_visited)
+        print("Nodes visited:", self.nodes_visited)
         return best_move
 
     def minimax_alpha_beta(self, gamestate, depth, turn_multiplier, alpha, beta):
         global best_move
-        global nodes_visited
         global visited
-        nodes_visited += 1
+        self.nodes_visited += 1
 
         if visited.__contains__(gamestate.tostring()) :
             return-turn_multiplier  * float("inf")

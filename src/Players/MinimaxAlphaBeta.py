@@ -5,6 +5,8 @@ class MinimaxAlphaBeta(Player):
     def __init__(self, depth, color):
         self.depth = depth
         self.color = color
+        self.name = "Minimax Alpha Beta"
+        self.nodes_visited = 0
 
     def get_move(self, gamestate):
         global best_move

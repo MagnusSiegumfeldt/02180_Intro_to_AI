@@ -17,9 +17,12 @@ class MinimaxAreaAdvanced(Player):
     def __init__(self, color, depth):
         self.color = color
         self.depth = depth
+        self.name = "Minimax Area Advanced"
+        self.nodes_visited = 0
         
     # Gets input from the user, asserts that it is valid, and returns the Move object     
     def get_move(self, gamestate):
+        self.nodes_visited = 0
         #if white
         if self.color == 1:
             return self.minimax(gamestate, self.depth, True)[1]
@@ -31,6 +34,7 @@ class MinimaxAreaAdvanced(Player):
 
     #Returns a (Integer, Move) tuple describing the maximum outcome (assuming rational minimizing player 2)
     def minimax(self, gamestate, max_depth, is_max):
+        self.nodes_visited += 1
         if max_depth == 0:  
             return (MinimaxAreaAdvanced.eval(gamestate), None)
         

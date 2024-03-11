@@ -5,6 +5,8 @@ class MinimaxArea(Player):
     def __init__(self, depth, color):
         self.depth = depth
         self.color = color
+        self.name = "Minimax Area"
+        self.nodes_visited = 0
 
 
     # Gets input from the user, asserts that it is valid, and returns the Move object     
