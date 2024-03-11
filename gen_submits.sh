@@ -1,4 +1,21 @@
-for i in "0 1 2 4" "1 0 4 2" "0 2 2 4" "2 0 4 2" "1 2 4 4" "2 1 4 4"; do
+
+runs=(
+    "0 1 2 4" 
+    "1 0 4 2" 
+    "0 2 2 4" 
+    "2 0 4 2" 
+    "1 2 4 4" 
+    "2 1 4 4"
+    
+    "0 1 2 6" 
+    "1 0 6 2" 
+    "0 2 2 6" 
+    "2 0 6 2" 
+    "1 2 6 6" 
+    "2 1 6 6"
+)
+
+for i in "${runs[@]}"; do
     set -- $i;
     echo -e "#!/bin/sh 
 ### General options 
@@ -30,12 +47,12 @@ python3 src/testrunner.py $1 $2 $3 $4" > ./submit/submit_${1}_${2}_${3}_${4}.sh
 done
 
 echo "" > submit_all.sh
-for i in "0 1 2 4" "1 0 4 2" "0 2 2 4" "2 0 4 2" "1 2 4 4" "2 1 4 4"; do
+for i in "${runs[@]}"; do
     set -- $i;
 echo "bsub < ./submit/submit_${1}_${2}_${3}_${4}.sh" >> submit_all.sh
 done
 
-for i in "0 1 2 4" "1 0 4 2" "0 2 2 4" "2 0 4 2" "1 2 4 4" "2 1 4 4"; do
+for i in "${runs[@]}"; do
     set -- $i;
     chmod +x ./submit/submit_${1}_${2}_${3}_${4}.sh
 done
