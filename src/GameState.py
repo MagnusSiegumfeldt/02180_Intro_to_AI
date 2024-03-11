@@ -177,3 +177,7 @@ class GameState:
                 elif best[idx][0] <= best[idx][1] and best[idx][0] < size:
                     best[idx][0] = size
         return best
+    
+    def eval(self):
+        score = self.score()
+        return sum(score[0]) - sum(score[1])

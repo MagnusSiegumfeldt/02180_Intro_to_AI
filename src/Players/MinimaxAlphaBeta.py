@@ -29,7 +29,7 @@ class MinimaxAlphaBeta(Player):
 
         moves = gamestate.get_legal_moves_ordered()
         if depth == 0 or len(moves) == 0:
-            return turn_multiplier * self.eval(gamestate)
+            return turn_multiplier * gamestate.eval()
 
         max_score = float("-inf")
         for move in moves:
