@@ -2,15 +2,15 @@ from GameState import GameState
 from Players.Human import Human
 from Players.GuiPlayer import GuiPlayer
 from Players.MinimaxArea import MinimaxArea
+from Players.MinimaxAreaAdvanced import MinimaxAreaAdvanced
 from Views.GuiView import GuiView
-
-
-
 
 def main():
     view = GuiView()
-    player1 = GuiPlayer(view)
-    player2 = MinimaxArea(color=2, depth=2)
+    #player1 = GuiPlayer(view)
+    #player2 = GuiPlayer(view)
+    player1 = MinimaxAreaAdvanced(color=1, depth=2)
+    player2 = MinimaxAreaAdvanced(color=2, depth=2)
     game = GameState(player1, player2)
 
     current_player = player1
@@ -24,6 +24,7 @@ def main():
         # Implement move
         try:
             game.make_move(move)
+            print("Score:", MinimaxArea.eval(game), "eval:", MinimaxAreaAdvanced.eval(game))
             view.update(move)
 
         except:
