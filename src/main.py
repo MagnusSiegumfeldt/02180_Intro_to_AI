@@ -1,4 +1,5 @@
 import time as t
+import sys
 
 from GameState import GameState
 from Players.ConsolePlayer import ConsolePlayer
@@ -9,38 +10,22 @@ from Players.MiniMaxAlphaBetaHashing import MiniMaxAlphaBetaHashing
 from Players.MinimaxAlphaBetaHashingAdvanced import MiniMaxAlphaBetaHashingAdvanced
 from Views.GuiView import GuiView
 from Views.ConsoleView import ConsoleView
-
+from Runner import run_game
 
 def main():
-    view = GuiView()
-    player1 = MinimaxAlphaBeta(color=1, depth=2)
-    player2 = MinimaxAlphaBeta(color=2, depth=2)
-    game = GameState(player1, player2)
-    current_player = player1
+    if len(sys.argv) != 5:
+        print("Usage: python main.py <player1> <player2> <player1_depth> <player2_depth>")
+        print("player1 and player2 are integers from 0 to 3")
+        print("player1_depth and player2_depth are integers")
+        return
 
-    # List of tuples (turn_number, move_time, number_of_nodes_visited, player_turn, score)
-    game_records = []
+    p1 = sys.argv[1]
+    p2 = sys.argv[2]
+    p1d = sys.argv[3]
+    p2d = sys.argv[4]
 
-    while not game.finished():
-        start = t.perf_counter()
-        view.show(game)
-        move = current_player.get_move(game)
-        try:
-            game.make_move(move)
-            view.update(move)   
-        except:
-            print("Invalid move", move)
-            return
-        
-        turn_record = (len(game_records) + 1, t.perf_counter() - start, current_player.nodes_visited, current_player.color, game.score())
-        print_turn_record(turn_record)
-        game_records.append(turn_record)
-
-        current_player = player1 if current_player == player2 else player2
-
-    view.show(game)
-    print("Game over")
-    print("Final score:", game.score())
+    run_game(int(p1), int(p2), int(p1d), int(p2d), None, True)
+    return
 
 def print_turn_record(turn_stats):
     print("Turn number:", turn_stats[0])
