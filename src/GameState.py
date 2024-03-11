@@ -20,6 +20,12 @@ class GameState:
         self.player2 = player2
         self.white_to_move = True
         self.move_log = []
+    def tostring(self):
+        gamestr = ""
+        for row in self.board:
+            for col in row :
+                gamestr = gamestr + str(col)
+        return gamestr
 
     def make_move(self, move):
         self.board[move.row1][move.col1] = 1

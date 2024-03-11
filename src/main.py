@@ -5,6 +5,8 @@ from Players.ConsolePlayer import ConsolePlayer
 from Players.GuiPlayer import GuiPlayer
 from Players.MinimaxArea import MinimaxArea
 from Players.MinimaxAlphaBeta import MinimaxAlphaBeta
+from Players.MiniMaxAlphaBetaHashing import MiniMaxAlphaBetaHashing
+from Players.MinimaxAlphaBetaHashingAdvanced import MiniMaxAlphaBetaHashingAdvanced
 from Views.GuiView import GuiView
 from Views.ConsoleView import ConsoleView
 

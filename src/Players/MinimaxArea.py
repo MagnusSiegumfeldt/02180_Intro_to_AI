@@ -30,7 +30,6 @@ class MinimaxArea(Player):
         if max_depth == 0:  
             return (self.eval(gamestate), None)
         
-        #TODO What if game ends?
         moves = gamestate.get_legal_moves()
         if len(moves) == 0:
             return (self.eval(gamestate), None)
@@ -49,7 +48,6 @@ class MinimaxArea(Player):
                 if current_best[0] < best_child[0]:
                     current_best = (best_child[0], m)
             else:
-                #print("HERE", best_child[0], current_best[0])
                 if best_child[0] < current_best[0]:
                     current_best = (best_child[0], m) 
         return current_best
