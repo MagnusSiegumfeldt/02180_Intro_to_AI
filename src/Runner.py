@@ -1,4 +1,3 @@
-# Runner.py
 import time as t
 from Players.MinimaxArea import MinimaxArea
 from Players.MinimaxAlphaBeta import MinimaxAlphaBeta
@@ -36,7 +35,7 @@ def run_game(p1, p2, p1d=2, p2d=2, view=None, verbose=True):
             return
 
         if view:
-            view.show(game)
+            view.show(game=game)
             view.update(move)
 
         turn_record = (
@@ -51,16 +50,16 @@ def run_game(p1, p2, p1d=2, p2d=2, view=None, verbose=True):
         game_records.append(turn_record)
 
         current_player = player1 if current_player == player2 else player2
-
-    view.show(game)
+    if view:
+        view.show(game)
     if verbose:
         print_end_of_game_results(game_records, player1, player2)
 
 
 def print_start_of_game(game):
     print("Starting game")
-    print("player 1:", game.player1)
-    print("player 2:", game.player2)
+    print("player 1:", game.player1.name)
+    print("player 2:", game.player2.name)
 
 
 def print_turn_record(turn_stats):

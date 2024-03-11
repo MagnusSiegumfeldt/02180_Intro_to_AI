@@ -1,13 +1,5 @@
-import time as t
 import sys
 
-from GameState import GameState
-from Players.ConsolePlayer import ConsolePlayer
-from Players.GuiPlayer import GuiPlayer
-from Players.MinimaxArea import MinimaxArea
-from Players.MinimaxAlphaBeta import MinimaxAlphaBeta
-from Players.MiniMaxAlphaBetaHashing import MiniMaxAlphaBetaHashing
-from Players.MinimaxAlphaBetaHashingAdvanced import MiniMaxAlphaBetaHashingAdvanced
 from Views.GuiView import GuiView
 from Views.ConsoleView import ConsoleView
 from Runner import run_game
@@ -18,8 +10,9 @@ def main():
         print(
             "Usage: python main.py <player1> <player2> <player1_depth> <player2_depth>"
         )
-        print("player1 and player2 are integers from 0 to 3")
-        print("player1_depth and player2_depth are integers")
+        print(
+            "MinimaxArea: 0\nMinimaxAlphaBeta: 1\nMiniMaxAlphaBetaHashing: 2\nMiniMaxAlphaBetaHashingAdvanced: 3"
+        )
         return
 
     p1 = sys.argv[1]
