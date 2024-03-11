@@ -12,9 +12,12 @@ from Views.GuiView import GuiView
 from Views.ConsoleView import ConsoleView
 from Runner import run_game
 
+
 def main():
     if len(sys.argv) != 5:
-        print("Usage: python main.py <player1> <player2> <player1_depth> <player2_depth>")
+        print(
+            "Usage: python main.py <player1> <player2> <player1_depth> <player2_depth>"
+        )
         print("player1 and player2 are integers from 0 to 3")
         print("player1_depth and player2_depth are integers")
         return
@@ -26,6 +29,7 @@ def main():
 
     run_game(int(p1), int(p2), int(p1d), int(p2d), None, True)
     return
+
 
 def print_turn_record(turn_stats):
     print("Turn number:", turn_stats[0])

@@ -2,7 +2,6 @@ from Player import Player
 import random
 
 
-
 class MiniMaxAlphaBetaHashing(Player):
     def __init__(self, color, depth):
         self.color = color
@@ -29,8 +28,8 @@ class MiniMaxAlphaBetaHashing(Player):
         global visited
         self.nodes_visited += 1
 
-        if visited.__contains__(gamestate.tostring()) :
-            return-turn_multiplier  * float("inf")
+        if visited.__contains__(gamestate.tostring()):
+            return -turn_multiplier * float("inf")
         moves = gamestate.get_legal_moves_ordered()
         if depth == 0 or len(moves) == 0:
             return turn_multiplier * self.eval(gamestate)

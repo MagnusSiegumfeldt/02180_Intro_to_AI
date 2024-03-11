@@ -16,6 +16,6 @@ class ConsoleView(View):
         # Print rows with their labels
         for label, row in zip(row_labels, game.board):
             print(f"{label} " + " ".join(self.int_to_char[cell] for cell in row))
-    
+
     def update(self, gamestate):
         pass
