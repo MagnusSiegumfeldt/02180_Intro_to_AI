@@ -1,7 +1,6 @@
 from Player import Player
 from Move import Move
 
-
 class GameState:
     def __init__(self, player1, player2):
         # Initial empty board
@@ -47,18 +46,13 @@ class GameState:
                 # Check if the square is empty
                 if self.board[row_white][col_white] == 0:
                     # Check if the square is adjacent to a black piece
-                    directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+                    directions = [(0, 1), (1, 0)]
                     for dr, dc in directions:
                         row_black, col_black = row_white + dr, col_white + dc
                         # Check if the black piece is within the board and the square is empty
-                        if (
-                            0 <= row_black < 9
-                            and 0 <= col_black < 9
-                            and self.board[row_black][col_black] == 0
-                        ):
-                            legal_moves.append(
-                                Move(row_white, col_white, row_black, col_black)
-                            )
+                        if (0 <= row_black < 9 and 0 <= col_black < 9 and self.board[row_black][col_black] == 0):
+                            legal_moves.append(Move(row_white, col_white, row_black, col_black))
+                            legal_moves.append(Move(row_black, col_black, row_white, col_white))
         return legal_moves
 
     def get_legal_moves_ordered(self):
@@ -169,7 +163,6 @@ class GameState:
         return size
 
     def score(self):
-        # Todo: this is naive
         visited = [[False for _ in range(9)] for _ in range(9)]
         best = [[0, 0], [0, 0]]
         for i in range(9):

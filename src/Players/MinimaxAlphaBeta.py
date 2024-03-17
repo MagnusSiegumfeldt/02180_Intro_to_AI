@@ -30,7 +30,7 @@ class MinimaxAlphaBeta(Player):
         max_score = float("-inf")
         for move in moves:
             gamestate.make_move(move)
-            # next_moves = gamestate.get_legal_moves_ordered()
+
             score = -self.minimax_alpha_beta(
                 gamestate, depth - 1, -turn_multiplier, -beta, -alpha
             )

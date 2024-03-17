@@ -23,7 +23,6 @@ class GuiView(View):
         self.bricks.append([move.col1, move.row1, move.col2, move.row2])
 
     def highlight(self, row, col):
-        print(row, col)
         highlight = pygame.Color(154, 179, 109)
         pygame.draw.rect(
             self.surface,

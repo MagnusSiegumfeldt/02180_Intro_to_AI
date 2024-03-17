@@ -29,30 +29,21 @@ def print_turn_record(turn_stats):
 
 
 def print_end_of_game_results(game_records, player1, player2):
-    print("Game over")
-    print(
-        "Final score:",
-        game_records[-1][4],
-        "=>",
-        sum(game_records[-1][4][0]) - sum(game_records[-1][4][1]),
-    )
-    print(
-        "Player 1:",
-        player1.name,
-        "\ttime taken:",
-        round(sum([record[1] for record in game_records if record[3] == 1]), 6),
-        "\tnodes visited:",
-        sum([record[2] for record in game_records if record[3] == 1]),
-    )
-    print(
-        "Player 2:",
-        player2.name,
-        "\ttime taken:",
-        round(sum([record[1] for record in game_records if record[3] == 2]), 6),
-        "\tnodes visited:",
-        sum([record[2] for record in game_records if record[3] == 2]),
-    )
-
+    print("Final score:")
+    print("\tWhite: ", "(" + str(game_records[-1][4][0][0]) + ", " + str(game_records[-1][4][0][1]) + ")")
+    print("\tBlack: ", "(" + str(game_records[-1][4][1][0]) + ", " + str(game_records[-1][4][1][1]) + ")")
+    print("\tTotal: ", sum(game_records[-1][4][0]) - sum(game_records[-1][4][1]))
+    print("Player 1:")
+    print("\tName:  ", player1.name)
+    print("\tDepth: ", player1.depth)
+    print("\tTime:  ", str(round(sum([record[1] for record in game_records if record[3] == 1]), 3)) + "s")
+    print("\tNodes: ", sum([record[2] for record in game_records if record[3] == 1]))
+    print("Player 2:")
+    print("\tName:  ", player2.name)
+    print("\tDepth: ", player2.depth)
+    print("\tTime:  ", str(round(sum([record[1] for record in game_records if record[3] == 2]), 3)) + "s")
+    print("\tNodes: ", sum([record[2] for record in game_records if record[3] == 2]))
+    
 def main(argv):
     p1, p2, p1d, p2d = int(argv[1]), int(argv[2]), int(argv[3]), int(argv[4])
     
@@ -63,7 +54,7 @@ def main(argv):
     current_player = player1
     game_records = []
 
-    verbose = True
+    verbose = False
     
     if verbose:
         print_start_of_game(game)
@@ -90,8 +81,8 @@ def main(argv):
 
         current_player = player1 if current_player == player2 else player2
 
-    if verbose:
-        print_end_of_game_results(game_records, player1, player2)
+    
+    print_end_of_game_results(game_records, player1, player2)
 
 
 if __name__ == "__main__":
