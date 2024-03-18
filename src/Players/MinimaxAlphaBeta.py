@@ -8,13 +8,14 @@ class MinimaxAlphaBeta(Player):
         self.name = "Minimax Alpha Beta"
         self.nodes_visited = 0
 
-
+    # Compute what move to make
     def get_move(self, gamestate):
         self.nodes_visited = 0
         turn_multiplier = 1 if self.color == 1 else -1
 
         eval, best_move = self.minimax_alpha_beta(gamestate, self.depth, turn_multiplier, float("-inf"), float("inf"))
         return best_move
+
 
     def minimax_alpha_beta(self, gamestate, depth, turn_multiplier, alpha, beta):
         self.nodes_visited += 1
@@ -25,7 +26,9 @@ class MinimaxAlphaBeta(Player):
 
         max_score = float("-inf")
         best_move = None
+        # Try all moves
         for move in moves:
+            # Make move, try it, unmake it.
             gamestate.make_move(move)
 
             score = -self.minimax_alpha_beta(gamestate, depth - 1, -turn_multiplier, -beta, -alpha)[0]
@@ -33,13 +36,16 @@ class MinimaxAlphaBeta(Player):
                 max_score = score
                 if depth == self.depth:
                     best_move = move
+
             gamestate.unmake_move()
+
             if max_score > alpha:
                 alpha = max_score
             if alpha >= beta:
                 break
         return max_score, best_move
 
+    # Hueristic function is score
     def eval(self, gamestate):
         score = gamestate.score()
         return sum(score[0]) - sum(score[1])
