@@ -24,6 +24,7 @@ where the ids are as follows:
 | 1  | $\alpha\beta$-pruning| No| No                |
 | 2  | $\alpha\beta$-pruning| Yes| No
 | 3  | $\alpha\beta$-pruning|Yes | Yes
+
 e.g. run 
 ```
 python ./src/testrunner.py 3 0 4 2
