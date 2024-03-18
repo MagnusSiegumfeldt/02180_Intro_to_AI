@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-
+""" Abstract player class that all players inherit from """
 class Player(ABC):
 
     def __init__(self, color):

@@ -3,8 +3,8 @@ environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame
 from View import View
 
-BOARD_WIDTH = 600
-BOARD_HEIGHT = 600
+BOARD_WIDTH = 630
+BOARD_HEIGHT = 630
 GRID_SIZE = 9  # 9x9 grid
 SQ_SIZE = BOARD_WIDTH // GRID_SIZE
 

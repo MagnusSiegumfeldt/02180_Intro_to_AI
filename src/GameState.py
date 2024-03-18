@@ -20,19 +20,22 @@ class GameState:
         self.white_to_move = True
         self.move_log = []
 
+    # compute string version for hashing.
     def tostring(self):
         gamestr = ""
         for row in self.board:
             for col in row:
                 gamestr = gamestr + str(col)
         return gamestr
-
+    
+    # Make a move on the board
     def make_move(self, move):
         self.board[move.row1][move.col1] = 1
         self.board[move.row2][move.col2] = 2
         self.white_to_move = not self.white_to_move
         self.move_log.append(move)
 
+    # Undo a move.
     def unmake_move(self):
         move = self.move_log.pop()
         self.board[move.row1][move.col1] = 0
@@ -68,12 +71,6 @@ class GameState:
         # - Add a neighboring piece of the same color as the current player's piece
         # - Also introduce a neighbor of the opponent's color next to a piece of the same color
         second_rank_moves = []
-
-        # Moves that increase the surface area of the current player's color
-        # third_rank_moves = [] TODO
-
-        # Moves that decrease the surface area of the opponents player's color
-        # fourth_rank_moves = [] TODO
 
         # Other moves
         last_rank_moves = []
@@ -125,21 +122,20 @@ class GameState:
                                 last_rank_moves.append(new_move)
         return first_rank_moves + second_rank_moves + last_rank_moves
 
+
     def has_friendly_neighbors(self, row, col, player):
         directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
         for dr, dc in directions:
             row_adj, col_adj = row + dr, col + dc
-            if (
-                0 <= row_adj < 9
-                and 0 <= col_adj < 9
-                and self.board[row_adj][col_adj] == player
-            ):
+            if ( 0 <= row_adj < 9 and 0 <= col_adj < 9 and self.board[row_adj][col_adj] == player):
                 return True
         return False
+
 
     def finished(self):
         return len(self.get_legal_moves()) == 0
 
+    # dfs through the board to compute the size of the area of the same color
     def dfs(self, row, col, visited, color):
         if visited[row][col] or self.board[row][col] != color:
             return 0
@@ -162,6 +158,7 @@ class GameState:
                     visited[nr][nc] = True
         return size
 
+    # Compute the two largest areas of both players. Run dfs from every node and to find areas.
     def score(self):
         visited = [[False for _ in range(9)] for _ in range(9)]
         best = [[0, 0], [0, 0]]

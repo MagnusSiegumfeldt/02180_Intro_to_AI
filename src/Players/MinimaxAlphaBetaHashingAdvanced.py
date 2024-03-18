@@ -20,8 +20,8 @@ class MiniMaxAlphaBetaHashingAdvanced(Player):
         self.name = "Minimax Alpha Beta Hashing Advanced"
         self.nodes_visited = 0
         self.visited = {}
-        self.best_move = None
 
+    # Return the best move for the current gamestate
     def get_move(self, gamestate):
         turn_multiplier = 1 if self.color == 1 else -1
         self.visited = {}
@@ -30,19 +30,11 @@ class MiniMaxAlphaBetaHashingAdvanced(Player):
         eval, move = self.minimax_alpha_beta(gamestate, self.depth, turn_multiplier, float("-inf"), float("inf"), legal_moves)
         return move
     
-    def filter_moves(self, moves, move, reinsert):
-        for m in moves:
-            if ((m.row1, m.col1) == (move.row1, move.col1) or (m.row1, m.col1) == (move.row2, move.col2) or
-                    (m.row2, m.col2) == (move.row1, move.col1) or (m.row2, m.col2) == (move.row2, move.col2)):
-                reinsert.append(m)
-        for m in reinsert:
-            moves.remove(m)
-        return
-
-
+    # Alphabeta search.
     def minimax_alpha_beta(self, gamestate, depth, turn_multiplier, alpha, beta, legal_moves):
         self.nodes_visited += 1
 
+        # If state is hashed.
         if gamestate.tostring() in self.visited:
             return self.visited[gamestate.tostring()], None
         
@@ -51,31 +43,31 @@ class MiniMaxAlphaBetaHashingAdvanced(Player):
 
         max_score = float("-inf")
         best_move = None
-        legal_moves_copy = legal_moves.copy()
 
-        for move in legal_moves_copy:          
-            to_reinsert = []
-            self.filter_moves(legal_moves, move, to_reinsert)
+        legal_moves = gamestate.get_legal_moves_ordered()
+        # Try out all moves
+        for move in legal_moves:  
+
+            # Make move, try it, unmake it.
             gamestate.make_move(move)
-            res =  self.minimax_alpha_beta(gamestate, depth - 1, -turn_multiplier, -beta, -alpha, legal_moves)
-            score = -res[0]
+            score =  -self.minimax_alpha_beta(gamestate, depth - 1, -turn_multiplier, -beta, -alpha, legal_moves)[0]
 
             if score > max_score:
                 max_score = score
                 best_move = move
 
-            for m in to_reinsert:
-                legal_moves.append(m)
-
             gamestate.unmake_move()
+
             if max_score > alpha:
                 alpha = max_score
             if alpha >= beta:
                 break
-
+        
+        # Save hash
         self.visited[gamestate.tostring()] = max_score
         return max_score, best_move
     
+    # DFS through the colored area to find weighted size and boundary.
     def dfs(gamestate, row, col, visited, counted, color):
         if visited[row][col] or gamestate.board[row][col] != color:
             return 0, 0
@@ -93,29 +85,22 @@ class MiniMaxAlphaBetaHashingAdvanced(Player):
 
             for dr, dc in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
                 nr, nc = r + dr, c + dc
-                if (
-                    0 <= nr < 9
-                    and 0 <= nc < 9
-                    and not visited[nr][nc]
-                    and gamestate.board[nr][nc] == color
-                ):
+                if (0 <= nr < 9 and 0 <= nc < 9 and not visited[nr][nc] and gamestate.board[nr][nc] == color):
                     stack.append((nr, nc))
                     visited[nr][nc] = True
-                elif (
-                    0 <= nr < 9
-                    and 0 <= nc < 9
-                    and not (nr, nc) in counted
-                    and gamestate.board[nr][nc] == 0
-                ):
+                elif (0 <= nr < 9 and 0 <= nc < 9 and not (nr, nc) in counted and gamestate.board[nr][nc] == 0):
                     boundary += 1
                     counted[(nr, nc)] = True
 
         return size, boundary
 
+
+    # Eval board state by largest areas, boundaries and weighted board.
     def eval(gamestate):
         visited = [[False for _ in range(9)] for _ in range(9)]
         best = [[0, 0], [0, 0]]
 
+        # For every square run dfs to find areas. Keep two largest for every color.
         for i in range(9):
             for j in range(9):
                 current_color = gamestate.board[i][j]
