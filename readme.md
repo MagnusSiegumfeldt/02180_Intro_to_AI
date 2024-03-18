@@ -1,10 +1,10 @@
 # Taiji
-This project contains a Taiji implementation as well as a few different versions of our implemented AI.
+This project contains a Taiji engine as well as a four different AI players.
 
 ## AI models
 The iterative development of our AI is shown by the different players found in the source code. The ```MinimaxArea``` player is our simplest version while the ```MinimaxAlphaBetaHashingAdvanced``` has been extended and improved.
 
-## Compiling and executing the code
+## Setting up and executing the code
 You need [pygame](https://www.pygame.org/news) to run our implementation and play against the AI yourself. Install this by
 ```
 pip install -r requirements.txt
@@ -13,9 +13,9 @@ Run a GUI window against our AI with
 ```
 python ./src/main.py
 ```
-If you just want to compare two AIs a match can be launched by
+To have two AIs play a match can be launched by
 ```
-python ./src/testrunner.py id_white id_black depth_white depth_black
+python ./src/testrunner.py <id_white> <id_black> <depth_white> <depth_black>
 ```
 where the ids are as follows: 
 | Id | Search Method| State Hashing | Advanced Board Evaluation              |
@@ -23,7 +23,7 @@ where the ids are as follows:
 | 0  | Minimax | No | No
 | 1  | $\alpha\beta$-pruning| No| No                |
 | 2  | $\alpha\beta$-pruning| Yes| No
-| 3  | $\alpha\beta$-pruning|Yes | Yes
+| 3  | $\alpha\beta$-pruning| Yes| Yes
 
 e.g. run 
 ```
