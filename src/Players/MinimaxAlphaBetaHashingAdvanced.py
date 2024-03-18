@@ -109,7 +109,7 @@ class MiniMaxAlphaBetaHashingAdvanced(Player):
                 idx = current_color - 1
                 counted = {}
                 size, boundary = MiniMaxAlphaBetaHashingAdvanced.dfs(gamestate, i, j, visited, counted, current_color)
-                total = size + (boundary / 64)
+                total = size + (boundary / 81)
 
                 if best[idx][0] >= best[idx][1] and best[idx][1] < total:
                     best[idx][1] = total
